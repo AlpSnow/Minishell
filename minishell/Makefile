@@ -9,7 +9,7 @@ OBJFILES = $(addprefix $(BUILD_DIR)/, $(SRC_FILES:.c=.o))
 
 # Compilation
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -I. -I$(LIBFT_PATH)
 LIBS = -lreadline -lncurses
 
 # Libft
@@ -18,9 +18,6 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 # Exécutable
 NAME = minishell
-
-
-
 
 # Compilation complète
 all: $(BUILD_DIR) $(LIBFT) $(NAME)
