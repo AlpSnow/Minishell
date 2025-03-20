@@ -6,15 +6,12 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/13 19:13:59 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/20 19:58:01 by mwallis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-//j'ai inclus tout les header dont on pourrait avoir besoin je propose qu'on laisse en commentaire tantt qu'on en a
-//pas besoin comme ca on supprimeras les inutiles a la fin.
 
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv
@@ -33,7 +30,7 @@
 # include <readline/readline.h> // readline
 # include <readline/history.h>  // add_history
 # include <stddef.h>
-# include "libft.h"
+# include "./libft/libft.h"
 
 # ifndef COLORS_H
 #  define COLORS_H
@@ -49,6 +46,12 @@
 #  define RESET "\033[0m"    //a mettre a la fin pour reset la couleur exemple: printf(GRN" coquille >$ "RESET); pour imprimer en vert
 
 # endif
+
+//Messages d'erreurs :
+#define ERROR_ARGC RED "Error: This program does not take any \
+arguments." RESET "\n"
+
+
 
 char	*get_prompt(void);//donne une string de ce type: "~minishell/minishell coquille >$" ou minishell est le repertoire courant
 

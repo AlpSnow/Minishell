@@ -12,11 +12,18 @@
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char *argv[], char **envp)
 {
 	char	*input_line;
 	char	**input_tab;
 	int		status;
+
+	(void)argv;
+	if (argc != 1)
+		return (write (1, ERROR_ARGC, 58), 1);
+
+	//faire environnement ici :
+	(void)envp;
 
 	while (1)
 	{
