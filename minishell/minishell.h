@@ -3,15 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
+/*   By: mwallis <mwallis@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/20 19:58:01 by mwallis          ###   ########.fr       */
+/*   Updated: 2025/03/21 01:01:28 by mwallis          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
+typedef struct s_data
+{
+	char **env;
+	
+}	t_data;
 
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv
@@ -22,7 +28,7 @@
 //# include <dirent.h>         // opendir, readdir, closedir
 //# include <string.h>         // strerror
 # include <sys/wait.h>       // wait, waitpid, wait3, wait4
-//# include <signal.h>         // signal, kill, sigaction, sigemptyset, sigaddset
+# include <signal.h>
 //# include <sys/ioctl.h>      // ioctl
 //# include <termios.h>        // tcsetattr, tcgetattr
 //# include <curses.h>         // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
@@ -48,8 +54,10 @@
 # endif
 
 //Messages d'erreurs :
-#define ERROR_ARGC RED "Error: This program does not take any \
+# define ERROR_ARGC RED "Error: This program does not take any \
 arguments." RESET "\n"
+# define ERROR_ENV RED "Error: Failed to copy environment \
+variables." RESET "\n"
 
 
 
