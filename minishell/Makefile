@@ -2,7 +2,10 @@
 BUILD_DIR = build
 
 # Fichiers sources
-SRC_FILES = minishell.c
+SRC_FILES = minishell.c \
+mini_utils.c \
+exit.c \
+execution.c
 
 # Transformation des fichiers sources en fichiers objets
 OBJFILES = $(addprefix $(BUILD_DIR)/, $(SRC_FILES:.c=.o))

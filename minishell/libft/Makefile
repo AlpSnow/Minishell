@@ -41,7 +41,9 @@ ft_lstdelone.c \
 ft_lstclear.c \
 ft_lstiter.c \
 ft_lstmap.c \
-get_next_line.c
+get_next_line.c \
+ft_str_is_digit.c \
+ft_strcmp.c
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
