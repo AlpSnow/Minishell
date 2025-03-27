@@ -28,14 +28,14 @@ typedef enum //a definir lors du parsing pour savoir a quoi chaques argument de 
 	PIPE,
 	//...
 
-} tok_type;
+} t_type;
 
 
 typedef struct s_tok// contient le contenue d'un token sont type et un pointeur sur le token suivant.
 {
-	char *str;
-	int type;
-	struct s_tok *next;
+	char			*str;
+	t_type			type;
+	struct s_tok	*next;
 }	t_tok;
 
 # include <stdio.h>          // printf, perror
@@ -69,7 +69,13 @@ typedef struct s_tok// contient le contenue d'un token sont type et un pointeur 
 #  define CYN "\033[36m"
 #  define WHT "\033[37m"
 
-#  define RESET "\033[0m"    //a mettre a la fin pour reset la couleur exemple: printf(GRN" coquille >$ "RESET); pour imprimer en vert
+#  define RESET "\033[0m"
+
+#  define RED_PROMPT "\001\033[31m\002"
+#  define GRN_PROMPT "\001\033[32m\002"
+#  define BLU_PROMPT "\001\033[34m\002"
+
+#  define RESET_PROMPT "\001\033[0m\002"
 
 # endif
 

@@ -70,7 +70,7 @@ static char	*build_user_host(char *user, char *host)
 	free(host);
 	tmp = ft_strjoin(res, ":");
 	free(res);
-	res = ft_strjoin(GRN, tmp);
+	res = ft_strjoin(GRN_PROMPT, tmp);
 	free(tmp);
 	return (res);
 }
@@ -88,14 +88,14 @@ char	*get_prompt(t_data *data)
 	cwd = getcwd(NULL, 0);
 	cwd = shorten_cwd(cwd, get_env("HOME", data->env));
 	if (!user || !cwd || !host)
-		return (free(cwd), free(host), ft_strdup(GRN "minishell > " RESET));
+		return (free(cwd), free(host), ft_strdup(GRN_PROMPT "minishell > " RESET_PROMPT));
 	colored = build_user_host(user, host);
-	tmp = ft_strjoin(BLU, cwd);
+	tmp = ft_strjoin(BLU_PROMPT, cwd);
 	free(cwd);
 	cwd = ft_strjoin(colored, tmp);
 	free(colored);
 	free(tmp);
-	colored = ft_strjoin(cwd, RESET "$ ");
+	colored = ft_strjoin(cwd, RESET_PROMPT "$ ");
 	colored = add_chr('\0', colored);
 	free(cwd);
 	return (colored);
