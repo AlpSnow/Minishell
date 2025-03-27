@@ -28,7 +28,7 @@ typedef struct s_tok
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv
 # include <unistd.h>         // read, write, close, access, fork, getcwd, chdir, unlink, execve, isatty, ttyname, ...
-//# include <fcntl.h>          // open
+# include <fcntl.h>          // open
 # include <sys/types.h>      // fork, open
 //# include <sys/stat.h>       // open, stat, lstat, fstat
 //# include <dirent.h>         // opendir, readdir, closedir

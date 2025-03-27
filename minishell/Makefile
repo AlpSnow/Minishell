@@ -3,7 +3,8 @@ BUILD_DIR = build
 
 # Fichiers sources
 SRC_FILES = minishell.c \
-mini_utils.c \
+prompt.c \
+minishell_utils.c \
 exit.c \
 execution.c
 
