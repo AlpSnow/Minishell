@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/27 20:09:53 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:28:34 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ arguments." RESET "\n"
 variables." RESET "\n"
 
 int init_minishell(char **envp, t_data *data);
-char **get_env(char **envp);
+char **copy_env(char **envp);
+char *get_env(char *val, char **env);
 void	sigint_handler(int signum);
-char	*get_prompt(void);//donne une string de ce type: "~minishell/minishell coquille >$" ou minishell est le repertoire courant
+char	*get_prompt(t_data *data);//donne une string de ce type: "~minishell/minishell coquille >$" ou minishell est le repertoire courant
 int		ft_atoi_with_validation(const char *nptr, int *is_valid);
 void	free_tab(char **tab);//free un tableau de string
 void mini_exit(int ret, t_data *data);//free puis exit proprement le programme

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mwallis <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 22:56:39 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/25 23:47:40 by mwallis          ###   ########.fr       */
+/*   Updated: 2025/03/27 22:48:06 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static char	*build_user_host(char *user, char *host)
 	return (res);
 }
 
-char	*get_prompt(void)
+char	*get_prompt(t_data *data)
 {
 	char	*user;
 	char	*host;
@@ -83,10 +83,10 @@ char	*get_prompt(void)
 	char	*colored;
 	char	*tmp;
 
-	user = getenv("USER");
+	user = get_env("USER", data->env);
 	host = get_host();
 	cwd = getcwd(NULL, 0);
-	cwd = shorten_cwd(cwd, getenv("HOME"));
+	cwd = shorten_cwd(cwd, get_env("HOME", data->env));
 	if (!user || !cwd || !host)
 		return (free(cwd), free(host), ft_strdup(GRN "minishell > " RESET));
 	colored = build_user_host(user, host);
@@ -96,6 +96,7 @@ char	*get_prompt(void)
 	free(colored);
 	free(tmp);
 	colored = ft_strjoin(cwd, RESET "$ ");
+	colored = add_chr('\0', colored);
 	free(cwd);
 	return (colored);
 }

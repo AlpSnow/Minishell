@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 22:00:39 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/27 20:09:13 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:50:47 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		global_interrupted = 0;
-		input_line = readline(prompt = get_prompt());
+		input_line = readline(prompt = get_prompt(&data));
 		free(prompt);
 		/*
 		int fd = open ("valgrind.supp", O_RDONLY);

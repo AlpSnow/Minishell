@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:59:45 by lmarck            #+#    #+#             */
-/*   Updated: 2025/03/27 18:53:40 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/27 22:30:40 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,26 @@ char	*ft_str_realoc(char *s1, char const *s2)
 	ptr[i + j] = '\0';
 	free(s1);
 	return (ptr);
+}
+char *get_env(char *val, char **env)
+{
+	int i;
+	int len;
+	char *tmp;
+	char *ret;
+
+	if(!val)
+		return (NULL);
+	i = 0;
+	tmp = ft_strjoin(val, "=");
+	len =  ft_strlen(tmp);
+	while(env[i])
+	{
+		ret = ft_strnstr(env[i], tmp, len);
+		if(ret)
+			return (free(tmp), ret + len);
+		i++;
+	}
+	free(tmp);
+	return (NULL);
 }

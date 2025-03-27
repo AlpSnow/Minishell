@@ -5,12 +5,12 @@ int init_minishell(char **envp, t_data *data)
 {
 	signal(SIGINT, sigint_handler); // gérer CTRL+C
 	signal(SIGQUIT, SIG_IGN);       // ignorer CTRL+
-	data->env = get_env(envp);
+	data->env = copy_env(envp);
 	if (data->env == NULL)
 		return (write (2, ERROR_ENV, 45), 1);
 	return (0);
 }
-char **get_env(char **envp)
+char **copy_env(char **envp)
 {
 	char	**env;
 	int		i;

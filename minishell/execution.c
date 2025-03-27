@@ -51,7 +51,7 @@ void exec_extern(char **arg, t_data *data)
 	else
 	{
 		i = 0;
-		env_paths = ft_split(getenv("PATH"), ':');
+		env_paths = ft_split(get_env("PATH", data->env), ':');
 		if (!env_paths)
 			error_exit("Path error", -1, NULL);
 		while(env_paths[i])
