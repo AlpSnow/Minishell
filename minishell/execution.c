@@ -36,13 +36,11 @@ int exec_command(char **cmd_arg, t_data *data)
 			signal(SIGINT, SIG_DFL);   // la commande doit pouvoir être interrompue
 			signal(SIGQUIT, SIG_DFL);  // idem pour CTRL+
 			exec_extern(cmd_arg, data);
-			perror("command not found");
-			exit(1);
 		}
 	}
 	return (0);
 }
-int exec_extern(char **arg, t_data *data)
+void exec_extern(char **arg, t_data *data)
 {
 	char *exec_path;
 	char **env_paths;
@@ -55,18 +53,27 @@ int exec_extern(char **arg, t_data *data)
 		i = 0;
 		env_paths = ft_split(getenv("PATH"), ':');
 		if (!env_paths)
-			return (0);
+			error_exit("Path error", -1, NULL);
 		while(env_paths[i])
 		{
 			exec_path = add_chr('/',env_paths[i]);
-			exec_path = ft_strjoin(exec_path, arg[0]);
-			//access ? flag ?
-			//strlcopy
-			//free path
+			exec_path = ft_str_realoc(exec_path, arg[0]);
 			execve(exec_path, arg, data->env);
 			i++;
 		}
-	free_tab(env_paths);
 	}
-	return(0);
+	error_exit(arg[0], 126, (void *)arg);
 }
+/* void test_access(char *path, char **env_paths)
+{
+	if (access(path, F_OK) != 0)
+		return;
+	if (access(path, X_OK) != 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
+		free_tab(env_paths);
+		exit(126);
+	}
+} */

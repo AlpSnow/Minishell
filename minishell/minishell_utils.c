@@ -1,55 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_utils.c                                       :+:      :+:    :+:   */
+/*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:59:45 by lmarck            #+#    #+#             */
-/*   Updated: 2025/03/26 23:35:13 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/27 18:53:40 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	if (tab == NULL)
-		return;
-	while (tab[i])
-		free(tab[i++]);
-	free(tab);
-}
-int	ft_atoi_with_validation(const char *nptr, int *is_valid)
-{
-	int		i;
-	int		sign;
-	long	result;
-	i = 0;
-	sign = 1;
-	result = 0;
-	*is_valid = 1;
-	while (nptr[i] == 32 || (nptr[i] >= 9 && nptr[i] <= 13))
-		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i++] == '-')
-			sign = sign * -1;
-	}
-	while (nptr[i] >= '0' && nptr[i] <= '9')
-	{
-		result = (result * 10) + (nptr[i++] - 48);
-		if ((sign == 1 && result > INT_MAX)
-			|| (sign == -1 && (-1 * result) < INT_MIN))
-			return (*is_valid = 0, 0);
-	}
-	if (nptr[i] != '\0')
-		*is_valid = 0;
-	return (sign * result);
-}
 int	count_line(char **tab)
 {
 	int i;
@@ -59,6 +21,7 @@ int	count_line(char **tab)
 		i++;
 	return(i);
 }
+
 char	*add_chr(unsigned char buf, char *str)
 {
 	char	*nstr;
@@ -77,4 +40,32 @@ char	*add_chr(unsigned char buf, char *str)
 	nstr[i + 1] = 0;
 	free(str);
 	return (nstr);
+}
+
+char	*ft_str_realoc(char *s1, char const *s2)
+{
+	char	*ptr;
+	size_t	i;
+	size_t	j;
+
+	if (!s1 || !s2)
+		return (NULL);
+	ptr = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (s1[i] != '\0')
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j] != '\0')
+	{
+		ptr[i + j] = s2[j];
+		j++;
+	}
+	ptr[i + j] = '\0';
+	free(s1);
+	return (ptr);
 }
