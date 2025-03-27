@@ -66,7 +66,7 @@ int exec_extern(char **arg, t_data *data)
 			execve(exec_path, arg, data->env);
 			i++;
 		}
-	}
 	free_tab(env_paths);
+	}
 	return(0);
 }

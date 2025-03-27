@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/26 23:43:10 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/27 02:24:54 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef struct s_tok// contient le contenue d'un token sont type et un pointeur 
 
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv
-# include <unistd.h>         // read, write, close, access, fork, g0etcwd, chdir, unlink, execve, isatty, ttyname, ...
-//# include <fcntl.h>          // open
+# include <unistd.h>         // read, write, close, access, fork, getcwd, chdir, unlink, execve, isatty, ttyname, ...
+# include <fcntl.h>          // open
 # include <sys/types.h>      // fork, open
 //# include <sys/stat.h>       // open, stat, lstat, fstat
 //# include <dirent.h>         // opendir, readdir, closedir

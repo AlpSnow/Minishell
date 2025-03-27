@@ -12,6 +12,8 @@
 
 #include "minishell.h"
 
+volatile int global_interrupted = 0;
+
 char **get_env(char **envp)
 {
 	char	**env;
@@ -43,6 +45,7 @@ char **get_env(char **envp)
 void	sigint_handler(int signum)
 {
 	(void)signum;
+	global_interrupted = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();       // readline sait qu'une ligne vide commence
 	rl_replace_line("", 0); // efface la ligne en cours
@@ -69,10 +72,29 @@ int	main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
+		global_interrupted = 0;
 		input_line = readline(prompt = get_prompt());
 		free(prompt);
-		if (!input_line)
-			mini_exit(5, &data);
+
+		/*
+		int fd = open ("valgrind.supp", O_RDONLY);
+		char *gnl = get_next_line(fd);
+		printf("%s", gnl);
+		*/
+
+
+		if (input_line == NULL)
+		{
+			write(1, "exit\n", 5);
+			rl_clear_history();
+			free_tab(data.env);
+			exit(0);
+		}
+		if (global_interrupted == 1)
+		{
+			free(input_line);
+			continue;
+		}
 		if (input_line[0] == '\0')
 		{
 			free(input_line);
@@ -92,50 +114,11 @@ int	main(int argc, char **argv, char **envp)
 		free_tab(input_tab);
 	}
 
+
+/*
+	int fd = open ("valgrind.supp", O_RDONLY);
+	char *gnl = get_next_line(fd);
+	printf("%s", gnl);
+*/
 	return (0);
 }
-
-char	*get_prompt(void)
-{
-	char	*user;
-	char	*host;
-	char	*cwd;
-	char	*prompt;
-	char	*tmp;
-
-	user = getenv("USER");         // nom d'utilisateur
-	host = getenv("HOSTNAME");     // nom de la machine
-	if (!host) {
-		char hostname[256];
-		gethostname(hostname, sizeof(hostname));
-		host = hostname;
-	}
-	cwd = getcwd(NULL, 0);         // répertoire courant
-
-	// Si on est dans le home, affiche ~
-	char *home = getenv("HOME");
-	if (home && ft_strncmp(cwd, home, ft_strlen(home)) == 0)
-	{
-		tmp = ft_strjoin("~", cwd + ft_strlen(home));
-		free(cwd);
-		cwd = tmp;
-	}
-
-	tmp = ft_strjoin(user, "@");
-	prompt = ft_strjoin(tmp, host);
-	free(tmp);
-
-	tmp = ft_strjoin(prompt, ":");
-	free(prompt);
-	prompt = ft_strjoin(tmp, cwd);
-	free(tmp);
-	free(cwd);
-
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, "$ ");
-	free(tmp);
-
-	return (prompt);
-}
-
-
