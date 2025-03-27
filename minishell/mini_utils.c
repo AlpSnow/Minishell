@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:59:45 by lmarck            #+#    #+#             */
-/*   Updated: 2025/03/24 18:03:45 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:35:13 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,23 @@ int	count_line(char **tab)
 	while(tab[i])
 		i++;
 	return(i);
+}
+char	*add_chr(unsigned char buf, char *str)
+{
+	char	*nstr;
+	int		i;
+
+	i = 0;
+	nstr = ft_calloc(ft_strlen(str) + 2, sizeof(char));
+	if (!nstr)
+		return (NULL);
+	while (str[i])
+	{
+		nstr[i] = str[i];
+		i++;
+	}
+	nstr[i] = buf;
+	nstr[i + 1] = 0;
+	free(str);
+	return (nstr);
 }

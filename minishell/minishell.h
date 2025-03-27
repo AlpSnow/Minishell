@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/25 19:04:51 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/26 23:43:10 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,26 @@ typedef struct s_data
 
 }	t_data;
 
-typedef struct s_tok
+typedef enum //a definir lors du parsing pour savoir a quoi chaques argument de l'input correspond
+{
+	COMMAND,
+	ARGUMENT,
+	PIPE,
+	//...
+
+} tok_type;
+
+
+typedef struct s_tok// contient le contenue d'un token sont type et un pointeur sur le token suivant.
 {
 	char *str;
 	int type;
+	struct s_tok *next;
 }	t_tok;
 
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv
-# include <unistd.h>         // read, write, close, access, fork, getcwd, chdir, unlink, execve, isatty, ttyname, ...
+# include <unistd.h>         // read, write, close, access, fork, g0etcwd, chdir, unlink, execve, isatty, ttyname, ...
 //# include <fcntl.h>          // open
 # include <sys/types.h>      // fork, open
 //# include <sys/stat.h>       // open, stat, lstat, fstat
@@ -73,10 +84,12 @@ int		ft_atoi_with_validation(const char *nptr, int *is_valid);
 void	free_tab(char **tab);//free un tableau de string
 void mini_exit(int ret, t_data *data);//free puis exit proprement le programme
 int	count_line(char **tab);//compte le nombre de lignes d'un tableau nul terminated
+char	*add_chr(unsigned char buf, char *str);
+
 void built_in_exec(char **arg, t_data *data);//execute les fonctions build in si elles doivent l'etre,
 int is_build_in(char *name);//verifie si un argument est une fonctions built in et renvoie son ID
 int exec_command(char **arg, t_data *data);//prends en argument une commande et ses argument et les executes
-
+int exec_extern(char **arg, t_data *data);//execute une commande, arg[0] est soit le chemin absolue, relatif ou le nom du programme a cherche dans le PATH de l'environement
 //Built-in functions
 
 void bi_exit(char **arg, t_data *data);
