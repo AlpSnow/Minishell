@@ -12,18 +12,12 @@
 
 #include "minishell.h"
 
-/*
-   global_interrupted est notre unique variable globale,
-   qui stocke uniquement l'information qu'un signal (SIGINT)
-   a été reçu.
-*/
-volatile int global_interrupted = 0;
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input_line;
 	char	**input_tab;
-	int		status;
+	//int		status;
 	t_data	data;
 	char *prompt;
 
@@ -58,7 +52,6 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		exec_command(input_tab, &data);
-		wait(&status);
 		free(input_line);
 		free_tab(input_tab);
 	}

@@ -16,7 +16,7 @@ void built_in_exec(char **arg, t_data *data)//execute les fonctions build in si 
 		bi_exit(arg, data);
 }
 
-int exec_command(char **cmd_arg, t_data *data)
+/*int exec_command(char **cmd_arg, t_data *data)
 {
 	pid_t	pid;
 
@@ -39,7 +39,75 @@ int exec_command(char **cmd_arg, t_data *data)
 		}
 	}
 	return (0);
+}*/
+
+int exec_command(char **cmd_arg, t_data *data)
+{
+    pid_t pid;
+    int   status;
+
+    // Si c'est un built-in, on l’exécute direct
+    if (is_build_in(cmd_arg[0]))
+    {
+        built_in_exec(cmd_arg, data);
+        return (0);
+    }
+
+
+
+    // Sinon, avant le fork, on teste si la commande est "./minishell"
+    if (ft_strcmp(cmd_arg[0], "./minishell") == 0)
+    {
+        pid = fork();
+        if (pid < 0)
+            return (perror("fork"), 1);
+        if (pid == 0)
+        {
+            // -- ENFANT --
+            // Remettre SIGINT par défaut (ou un handler) pour le nouveau minishell
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
+            execve("./minishell", cmd_arg, data->env);
+            // Si on arrive ici, erreur
+            perror("execve");
+            exit(127);
+        }
+        else
+        {
+            // -- PARENT --
+            // On IGNORE ctrl-C dans le parent tant que le 2e shell est actif
+            signal(SIGINT, SIG_IGN);
+            signal(SIGQUIT, SIG_IGN);
+
+            waitpid(pid, &status, 0);
+
+            // Quand le second shell se termine, on rétablit la gestion
+            // du SIGINT pour le parent (s’il doit enchaîner d’autres commandes).
+            signal(SIGINT, sigint_handler);
+            signal(SIGQUIT, SIG_IGN);
+        }
+    }
+    else
+    {
+        // comportement normal d’exécution d’une commande externe
+        pid = fork();
+        if (pid < 0)
+            return (perror("fork"), 1);
+        if (pid == 0)
+        {
+            signal(SIGINT, SIG_DFL);
+            signal(SIGQUIT, SIG_DFL);
+            exec_extern(cmd_arg, data);
+        }
+        else
+        {
+            waitpid(pid, &status, 0);
+        }
+    }
+    return (0);
 }
+
+
 void exec_extern(char **arg, t_data *data)
 {
 	char *exec_path;
