@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+/*
+   global_interrupted est notre unique variable globale,
+   qui stocke uniquement l'information qu'un signal (SIGINT)
+   a été reçu.
+*/
 volatile int global_interrupted = 0;
 
 int	main(int argc, char **argv, char **envp)
@@ -22,21 +27,16 @@ int	main(int argc, char **argv, char **envp)
 	t_data	data;
 	char *prompt;
 
-	if(init_minishell(envp, &data))
-		return (-1);
 	(void)argv;
 	if (argc != 1)
 		return (write (2, ERROR_ARGC, 58), 1);
+	if(init_minishell(envp, &data))
+		return (-1);
 	while (1)
 	{
 		global_interrupted = 0;
 		input_line = readline(prompt = get_prompt(&data));
 		free(prompt);
-		/*
-		int fd = open ("valgrind.supp", O_RDONLY);
-		char *gnl = get_next_line(fd);
-		printf("%s", gnl);
-		*/
 		if (input_line == NULL)
 		{
 			write(1, "exit\n", 5);
@@ -68,10 +68,5 @@ int	main(int argc, char **argv, char **envp)
 		free_tab(input_tab);
 	}
 
-/*
-	int fd = open ("valgrind.supp", O_RDONLY);
-	char *gnl = get_next_line(fd);
-	printf("%s", gnl);
-*/
 	return (0);
 }
