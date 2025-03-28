@@ -64,7 +64,8 @@ int exec_command(char **cmd_arg, t_data *data)
         if (pid == 0)
         {
             // -- ENFANT --
-            // Remettre SIGINT par défaut (ou un handler) pour le nouveau minishell
+            // “bonne pratique” ou “vraie shell robustesse”, il est généralement conseillé de remettre tout en SIG_DFL avant de lancer un programme inconnu
+            // Mais on peut s'en passer. C'est simplement une bonne pratique
             signal(SIGINT, SIG_DFL);
             signal(SIGQUIT, SIG_DFL);
             execve("./minishell", cmd_arg, data->env);
