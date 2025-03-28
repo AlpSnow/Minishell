@@ -5,6 +5,8 @@ int is_build_in(char *name)//verifie si un argument est une fonctions built in e
 {
 	if (!ft_strcmp("exit", name))
 		return (1);
+	if (!ft_strcmp("export", name))
+		return (1);
 	// a completer au fur et a mesure
 	else
 		return (0);
@@ -14,6 +16,8 @@ void built_in_exec(char **arg, t_data *data)//execute les fonctions build in si 
 {
 	if (!strcmp("exit", arg[0]))
 		bi_exit(arg, data);
+	if (!strcmp("export", arg[0]))
+		bi_export(arg, data);
 }
 
 /*int exec_command(char **cmd_arg, t_data *data)
