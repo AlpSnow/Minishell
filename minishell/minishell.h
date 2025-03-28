@@ -13,8 +13,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-extern volatile int global_interrupted;
-
 typedef struct s_data
 {
 	char **env;

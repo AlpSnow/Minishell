@@ -84,7 +84,6 @@ char **copy_env(char **envp)
 void sigint_handler(int signum)
 {
     (void)signum;
-    global_interrupted = 1;
     write(1, "\n", 1);
     rl_on_new_line();       // readline sait qu'une ligne vide commence
     rl_replace_line("", 0); // efface la ligne en cours

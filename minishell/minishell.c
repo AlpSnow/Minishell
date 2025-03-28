@@ -34,7 +34,6 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	while (1)
 	{
-		global_interrupted = 0;
 		input_line = readline(prompt = get_prompt(&data));
 		free(prompt);
 		if (input_line == NULL)
@@ -44,11 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			free_tab(data.env);
 			exit(0);
 		}
-		if (global_interrupted == 1)
-		{
-			free(input_line);
-			continue;
-		}
+
 		if (input_line[0] == '\0')
 		{
 			free(input_line);
