@@ -20,21 +20,28 @@ typedef struct s_data
 
 }	t_data;
 
-typedef enum //a definir lors du parsing pour savoir a quoi chaques argument de l'input correspond
+typedef enum s_token//a definir lors du parsing pour savoir a quoi chaques argument de l'input correspond
 {
-	ARG,
-	PIPE,
-	//...
+	WORD
+	PIPE
+	INPUT_REDIRECTION
+	OUTPUT_REDIRECTION
+	APPEND
+	HEREDOC
+	EOF
+	ERROR
+} 	t_token_type;
 
-} t_type;
 
-
-typedef struct s_tok// contient le contenue d'un token sont type et un pointeur sur le token suivant.
+typedef struct s_token// contient le contenue d'un token sont type et un pointeur sur le token suivant.
 {
 	char			*str;
-	t_type			type;
-	struct s_tok	*next;
-}	t_tok;
+	t_token_type	type;
+	int             is_simple_quote;
+	int             is_double_quote;
+	struct s_token	*next;
+	struct s_token	*previous;
+}	t_token;
 
 # include <stdio.h>          // printf, perror
 # include <stdlib.h>         // malloc, free, exit, getenv

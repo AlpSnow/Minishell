@@ -44,6 +44,10 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		add_history(input_line);
+
+		//debut fonction lexer;
+		//fonction check les erreurs;
+
 		input_tab = ft_split(input_line, ' ');
 		if (!input_tab || !input_tab[0])
 		{
