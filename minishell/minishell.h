@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/28 18:41:58 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/29 16:45:25 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,18 @@ typedef struct s_data
 {
 	char **env;
 	char **env_paths; //A ENLEVER SI NON UTILISER
-
 }	t_data;
 
-typedef enum s_token//a definir lors du parsing pour savoir a quoi chaques argument de l'input correspond
+typedef enum s_token_type//a definir lors du parsing pour savoir a quoi chaques argument de l'input correspond
 {
-	WORD
-	PIPE
-	INPUT_REDIRECTION
-	OUTPUT_REDIRECTION
-	APPEND
-	HEREDOC
-	EOF
-	ERROR
+	WORD,
+	PIPE,
+	INPUT_REDIRECTION,
+	OUTPUT_REDIRECTION,
+	APPEND,
+	HEREDOC,
+	EOF,
+	ERROR,
 } 	t_token_type;
 
 
@@ -109,18 +108,23 @@ void error_exit(char *str, int exit_value, t_data *data);
 void free_data(t_data *data);
 void put_error(char *cmd, char *arg, char *error);
 int is_valid_var_name(char *arg);
+char **secure_split(char *line, char sep);
 
 void built_in_exec(char **arg, t_data *data);//execute les fonctions build in si elles doivent l'etre,
 int is_build_in(char *name);//verifie si un argument est une fonctions built in et renvoie son ID
 int exec_command(char **arg, t_data *data);//prends en argument une commande et ses argument et les executes
 void exec_extern(char **arg, t_data *data);//execute une commande, arg[0] est soit le chemin absolue, relatif ou le nom du programme a cherche dans le PATH de l'environement
-void print_export(char** tab);
-char **add_var(char *arg, char **env);
+
 int ft_is_zero(int n);
-char **ft_add_line(char **tab, char *line);
+
+
 //Built-in functions
 
 void bi_exit(char **arg, t_data *data);
-int bi_export(char **arg, t_data *data);
 
+	//Export
+int bi_export(char **arg, t_data *data);
+char **modify_env(char **tab, char *line);
+int var_exist(char **tab, char *line);
+void print_export(char** tab);
 #endif

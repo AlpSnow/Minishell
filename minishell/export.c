@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/29 17:11:46 by lmarck            #+#    #+#             */
+/*   Updated: 2025/03/29 17:14:04 by lmarck           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include"minishell.h"
+#include "minishell.h"
 
 int	bi_export(char **arg, t_data *data)
 {
@@ -20,24 +31,32 @@ int	bi_export(char **arg, t_data *data)
 				error++;
 			}
 			else
-			{
-				data->env = ft_add_line(data->env, arg[i]);
-			}
+				data->env = modify_env(data->env, arg[i]);
 			i++;
 		}
 	}
 	return (ft_is_zero(error));
 }
 
-void	print_export(char** tab)
+void	print_export(char **tab)
 {
-	int i;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (tab[i])
 	{
+		j = 0;
 		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(tab[i], 1);
+		while (tab[i][j] && tab[i][j] != '=')
+			ft_putchar_fd(tab[i][j++], 1);
+		if (tab[i][j++] == '=')
+		{
+			ft_putstr_fd("=\"", 1);
+			while (tab[i][j])
+				ft_putchar_fd(tab[i][j++], 1);
+			write(1, "\"", 1);
+		}
 		write(1, "\n", 1);
 		i++;
 	}
@@ -60,15 +79,17 @@ int	is_valid_var_name(char *arg)
 	return (1);
 }
 
-char	**ft_add_line(char **tab, char *line)
+char	**modify_env(char **tab, char *line)
 {
-	char **ntab;
-	int i;
+	char	**ntab;
+	int		i;
 
+	if (var_exist(tab, line))
+		return (tab);
 	i = 0;
-	ntab = ft_calloc(count_line(tab) + 2, sizeof(char*));
+	ntab = ft_calloc(count_line(tab) + 2, sizeof(char *));
 	if (!ntab)
-		return (NULL);
+		exit(MALLOC_FAIL);
 	while (tab[i])
 	{
 		ntab[i] = tab[i];
@@ -78,15 +99,31 @@ char	**ft_add_line(char **tab, char *line)
 	free(tab);
 	return (ntab);
 }
-/* char **add_var(char *arg, char **env)
+
+int	var_exist(char **tab, char *line)
 {
-	char **nenv;
-	int i;
+	int		i;
+	char	**old;
+	char	**new;
 
-	i = count_line(env);
-	nenv =
-	if(!nenv)
-		exit(MALLOC_FAIL);
-
-	return (nenv);
-} */
+	i = 0;
+	new = secure_split(line, '=');
+	while (tab[i])
+	{
+		old = ft_split(tab[i], '=');
+		if (new[0] && old[0] && !strcmp(old[0], new[0]))
+		{
+			if (ft_strchr(line, '='))
+			{
+				free(tab[i]);
+				tab[i] = ft_strdup(line);
+				if (!tab[i])
+					exit(MALLOC_FAIL);
+			}
+			return (free_tab(old), free_tab(new), 1);
+		}
+		free_tab(old);
+		i++;
+	}
+	return (free_tab(new), 0);
+}
