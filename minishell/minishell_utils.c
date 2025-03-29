@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:59:45 by lmarck            #+#    #+#             */
-/*   Updated: 2025/03/29 16:45:09 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/29 17:23:42 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ char **secure_split(char *line, char sep)
 {
 	char **tab;
 
+	if (!line)
+		return (NULL);
 	tab = ft_split(line, sep);
 	if(!tab)
 		exit(MALLOC_FAIL);
