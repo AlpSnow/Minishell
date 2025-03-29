@@ -1,14 +1,6 @@
 
 #include "minishell.h"
 
-/*
-   init_minishell initialise l'environnement du shell.
-   Si la variable d'environnement MINISHELL_NESTED existe,
-   cela signifie que l'instance est imbriquée et nous
-   ignorons SIGINT pour éviter que CTRL+C ne soit géré
-   dans chaque instance. Sinon, nous sommes dans le shell
-   principal et nous installons notre handler personnalisé.
-*/
 
 int init_minishell(char **envp, t_data *data)
 {
@@ -87,7 +79,6 @@ char **copy_env(char **envp)
     char    **env;
     int     i;
 
-<<<<<<< HEAD
     i = 0;
     if (envp == NULL || envp[i] == NULL)
     {
@@ -95,9 +86,6 @@ char **copy_env(char **envp)
         return (env);
     }
 
-=======
-	i = 0;
->>>>>>> 413f57e4a46915ea0eb4fcba29266e5cbe0590cb
     while (envp[i] != NULL)
         i++;
     env = malloc(sizeof(char *) * (i + 1));
@@ -134,8 +122,6 @@ char **copy_env(char **envp)
     return (env);
 }
 
-/* Gestionnaire de SIGINT : il enregistre le signal dans la variable
-   globale et rafraîchit le prompt via readline. */
 void sigint_handler(int signum)
 {
     (void)signum;
