@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:58 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/27 22:28:34 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:41:58 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,9 @@ typedef struct s_tok// contient le contenue d'un token sont type et un pointeur 
 arguments." RESET "\n"
 # define ERROR_ENV RED "Error: Failed to copy environment \
 variables." RESET "\n"
+# define W_ID "not a valid identifier\n"
+# define MALLOC_FAIL -2
+
 
 int init_minishell(char **envp, t_data *data);
 char **copy_env(char **envp);
@@ -97,13 +100,20 @@ char	*ft_str_realoc(char *s1, char const *s2);//Strjoin qui free S1
 //void test_access(char *path, char **env_paths);//test les permission des executables et exit proprement si la permission est denied
 void error_exit(char *str, int exit_value, t_data *data);
 void free_data(t_data *data);
+void put_error(char *cmd, char *arg, char *error);
+int is_valid_var_name(char *arg);
 
 void built_in_exec(char **arg, t_data *data);//execute les fonctions build in si elles doivent l'etre,
 int is_build_in(char *name);//verifie si un argument est une fonctions built in et renvoie son ID
 int exec_command(char **arg, t_data *data);//prends en argument une commande et ses argument et les executes
 void exec_extern(char **arg, t_data *data);//execute une commande, arg[0] est soit le chemin absolue, relatif ou le nom du programme a cherche dans le PATH de l'environement
+void print_export(char** tab);
+char **add_var(char *arg, char **env);
+int ft_is_zero(int n);
+char **ft_add_line(char **tab, char *line);
 //Built-in functions
 
 void bi_exit(char **arg, t_data *data);
+int bi_export(char **arg, t_data *data);
 
 #endif

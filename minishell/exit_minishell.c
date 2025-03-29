@@ -37,3 +37,12 @@ void free_data(t_data *data)
 		data->env_paths = NULL;
 	}
 }
+void put_error(char *cmd, char *arg, char *error)
+{
+	write (2, "minishell: ", 12);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": '", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': ", 2);
+	ft_putstr_fd(error, 2);
+}

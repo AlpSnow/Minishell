@@ -87,6 +87,7 @@ char **copy_env(char **envp)
     char    **env;
     int     i;
 
+<<<<<<< HEAD
     i = 0;
     if (envp == NULL || envp[i] == NULL)
     {
@@ -94,6 +95,9 @@ char **copy_env(char **envp)
         return (env);
     }
 
+=======
+	i = 0;
+>>>>>>> 413f57e4a46915ea0eb4fcba29266e5cbe0590cb
     while (envp[i] != NULL)
         i++;
     env = malloc(sizeof(char *) * (i + 1));

@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:59:45 by lmarck            #+#    #+#             */
-/*   Updated: 2025/03/27 22:30:40 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/28 18:43:43 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,51 @@ char *get_env(char *val, char **env)
 	}
 	free(tmp);
 	return (NULL);
+}
+char **sort_tab(char **tab)
+{
+	char *tmp;
+	int i;
+	int j;
+
+	i = 0;
+	while(tab[i])
+	{
+		j = i + 1;
+		while(tab[j])
+		{
+			if (ft_strcmp(tab[i], tab[j]) > 0)
+			{
+				tmp = tab[i];
+				tab[i] = tab[j];
+				tab[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (tab);
+}
+char **dup_tab(char **tab)
+{
+	char **ntab;
+	int i;
+
+	i = 0;
+	ntab = ft_calloc(count_line(tab) + 1, sizeof(char*));
+	if (!ntab)
+		return (NULL);
+	while(tab[i])
+	{
+		ntab[i] = tab[i];
+		i++;
+	}
+	return (ntab);
+}
+
+int ft_is_zero(int n)
+{
+	if(n)
+		return (1);
+	return (0);
 }

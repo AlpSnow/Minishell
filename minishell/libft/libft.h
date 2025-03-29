@@ -6,7 +6,7 @@
 /*   By: lmarck <lmarck@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 14:45:00 by mwallis           #+#    #+#             */
-/*   Updated: 2025/03/24 21:11:40 by lmarck           ###   ########.fr       */
+/*   Updated: 2025/03/28 15:06:18 by lmarck           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char **dup_tab(char **tab);
+char **sort_tab(char **tab);
 
 char	*get_next_line(int fd);
 
