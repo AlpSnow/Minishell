@@ -37,12 +37,63 @@ char *increase_shlvl(char *shlvl_line)
     return (new_shlvl);
 }
 
+char **init_minimal_env(void)
+{
+    char **env_minimal;
+    char *pwd;
+    char *tmp;
+
+    env_minimal = malloc(sizeof(char *) * 5);
+    if (env_minimal == NULL)
+        return (NULL);
+
+    pwd = getcwd(NULL, 0);
+    if (pwd == NULL)
+        pwd = ft_strdup("/");
+    tmp = ft_strjoin("PWD=", pwd);
+    free(pwd);
+    if (tmp == NULL)
+        return (free(env_minimal), NULL);
+    env_minimal[0] = tmp;
+    env_minimal[1] = ft_strdup("SHLVL=1");
+    if (env_minimal[1] == NULL)
+        return (free(env_minimal[0]), free(env_minimal), NULL);
+    env_minimal[2] = ft_strdup("_=/usr/bin/env");
+    if (env_minimal[2] == NULL)
+    {
+        free(env_minimal[0]);
+        free(env_minimal[1]);
+        free(env_minimal);
+        return (NULL);
+    }
+    env_minimal[3] = ft_strdup("PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin");
+    if (env_minimal[3] == NULL)
+    {
+        free(env_minimal[0]);
+        free(env_minimal[1]);
+        free(env_minimal[2]);
+        free(env_minimal);
+        return (NULL);
+    }
+
+    env_minimal[4] = NULL;
+
+    return (env_minimal);
+
+}
+
 char **copy_env(char **envp)
 {
     char    **env;
     int     i;
 
     i = 0;
+    if (envp == NULL || envp[i] == NULL)
+    {
+        env = init_minimal_env();
+        return (env);
+    }
+
     while (envp[i] != NULL)
         i++;
     env = malloc(sizeof(char *) * (i + 1));
