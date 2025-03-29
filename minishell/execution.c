@@ -106,7 +106,18 @@ int exec_command(char **cmd_arg, t_data *data)
         }
         else
         {
+        	// Parent : ignore SIGINT pendant l'exécution du fils (probleme cat par exemple)
+        	signal(SIGINT, SIG_IGN);
+        	signal(SIGQUIT, SIG_IGN);
+
             waitpid(pid, &status, 0);
+
+            if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+                write(1, "\n", 1);
+
+            // Rétablir le handler pour le parent
+            signal(SIGINT, sigint_handler);
+            signal(SIGQUIT, SIG_IGN);
         }
     }
     return (0);
